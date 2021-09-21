@@ -54,13 +54,20 @@ class BotMain(commands.Bot):
                 multiply = match.group(1)
                 dice = match.group(2)
                 if multiply and int(multiply) > 0:
-                    max_num = int(multiply) * int(dice)
-                    number = random.randint(1, max_num)
+                    max_num = int(dice)
+                    numbers = []
+                    amount = 0
+                    for i in range(int(multiply)):
+                        number = random.randint(1, max_num)
+                        amount += number
+                        numbers.append(f"{i+1}:`{number}`")
+
+                    result = "\n".join(numbers)
+                    await message.channel.send(f'ダイスの目の合計は`{amount}`です。\n{result}')
                 else:
                     max_num = int(dice)
                     number = random.randint(1, max_num)
-
-                await message.channel.send(f'ダイスの目は`{number}`です。')
+                    await message.channel.send(f'ダイスの目は`{number}`です。')
             else:
                 if len(content) > 1:
                     await message.channel.send('コマンドの書式間違っています。\n`数字(ダイスを振る数)d数字(使うダイスの種類)` \n例)\n2d6 6面ダイスを2個\nd12 12麺ダイスを1個\n2d10 10面ダイスを2個\nd100 100面ダイスを1個')
